@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jovica Kontić — Personal Trainer Podgorica</title>
+<meta name="description" content="Sertifikovani lični trener u Podgorici. Personalizovani treninzi, plan ishrane, transformacija tijela. Certified personal trainer Podgorica Montenegro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─── */
+:root{
+  --cream:#f7f4ef;
+  --cream2:#ede9e0;
+  --cream3:#e2ddd3;
+  --ink:#111010;
+  --ink2:#1e1c1a;
+  --ink3:#2d2b28;
+  --mid:#7a7570;
+  --dim:#b0aa9f;
+  --accent:#c8472b;
+  --accent2:#e05a3a;
+  --gold:#b89155;
+  --white:#fdfcfa;
+  --border:rgba(17,16,16,.1);
+  --border2:rgba(17,16,16,.2);
+  --display:'Bebas Neue',Impact,sans-serif;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.7;overflow-x:hidden}
+
+/* ─── NOISE TEXTURE ─── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ─── SCROLL PROGRESS ─── */
+#bar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:3000;width:0;transition:width .1s}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:68px;padding:0 4rem;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all .4s;
+}
+nav.scrolled{background:rgba(247,244,239,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.logo{
+  font-family:var(--display);font-size:1.6rem;letter-spacing:.06em;
+  color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.4rem
+}
+.logo-accent{color:var(--accent)}
+.nav-links{list-style:none;display:flex;gap:2.5rem}
+.nav-links a{
+  font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--mid);text-decoration:none;transition:color .2s;position:relative
+}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.lang-sw{display:flex;border:1.5px solid var(--border2);overflow:hidden}
+.lbtn{background:none;border:none;cursor:pointer;padding:.3rem .8rem;font-family:var(--sans);font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);transition:all .2s}
+.lbtn.on{background:var(--ink);color:var(--cream)}
+.lbtn:not(.on):hover{color:var(--ink)}
+.nav-cta-btn{
+  padding:.5rem 1.4rem;background:var(--accent);color:var(--white);
+  font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;border:none;cursor:pointer;transition:all .3s
+}
+.nav-cta-btn:hover{background:var(--accent2);transform:translateY(-1px)}
+.hbg{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hbg span{display:block;width:22px;height:1.5px;background:var(--ink);transition:all .3s;transform-origin:center}
+.hbg.x span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hbg.x span:nth-child(2){opacity:0}
+.hbg.x span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* ─── SIDE DRAWER ─── */
+.drawer{
+  position:fixed;top:0;right:-100%;width:min(340px,100vw);height:100vh;
+  background:var(--white);z-index:999;transition:right .45s cubic-bezier(.77,0,.18,1);
+  display:flex;flex-direction:column;justify-content:center;padding:3rem 2.5rem;
+  border-left:1px solid var(--border)
+}
+.drawer.open{right:0}
+.drawer-links{display:flex;flex-direction:column;gap:1.5rem}
+.drawer-links a{font-family:var(--display);font-size:2.5rem;color:var(--ink);text-decoration:none;letter-spacing:.05em;transition:color .2s;line-height:1}
+.drawer-links a:hover{color:var(--accent)}
+.drawer-foot{margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);display:flex;gap:.75rem}
+.dlbtn{padding:.4rem 1rem;border:1.5px solid var(--border2);background:none;font-family:var(--sans);font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;color:var(--mid);transition:all .2s}
+.dlbtn.on{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  padding-top:68px;
+}
+.hero-left{
+  background:var(--ink);display:flex;flex-direction:column;
+  justify-content:flex-end;padding:5rem 4rem;position:relative;overflow:hidden
+}
+.hero-left-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 60% 20%,rgba(200,71,43,.18) 0%,transparent 60%),
+             radial-gradient(ellipse at 10% 80%,rgba(184,145,85,.08) 0%,transparent 50%);
+}
+.hero-eyebrow{
+  display:flex;align-items:center;gap:.75rem;margin-bottom:2rem;position:relative;z-index:1
+}
+.hero-eyebrow-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.hero-eyebrow span{font-size:.7rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,244,239,.45)}
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(5rem,11vw,10rem);
+  line-height:.92;letter-spacing:.02em;
+  color:var(--cream);position:relative;z-index:1;
+  margin-bottom:2rem
+}
+.hero h1 .red{color:var(--accent);display:block}
+.hero-sub{
+  font-size:.95rem;color:rgba(247,244,239,.5);font-weight:300;
+  line-height:1.8;max-width:440px;margin-bottom:2.5rem;position:relative;z-index:1
+}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;position:relative;z-index:1}
+.btn-accent{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.9rem 2rem;background:var(--accent);color:var(--white);
+  font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;transition:all .3s;border:2px solid var(--accent)
+}
+.btn-accent:hover{background:var(--accent2);border-color:var(--accent2);transform:translateY(-2px)}
+.btn-outline-light{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.9rem 2rem;background:transparent;color:var(--cream);
+  font-size:.75rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;transition:all .3s;border:2px solid rgba(247,244,239,.25)
+}
+.btn-outline-light:hover{border-color:var(--cream);transform:translateY(-2px)}
+.hero-stats{
+  position:absolute;bottom:3rem;right:3rem;z-index:1;
+  display:flex;flex-direction:column;gap:1.5rem;align-items:flex-end
+}
+.hero-stat-n{font-family:var(--display);font-size:3rem;color:var(--cream);line-height:1;letter-spacing:.02em}
+.hero-stat-n sup{font-size:.4em}
+.hero-stat-l{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,244,239,.35);margin-top:.1rem;text-align:right}
+.hero-right{
+  background:var(--cream2);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.hero-img-area{
+  flex:1;background:var(--cream3);display:flex;align-items:center;justify-content:center;
+  min-height:400px;position:relative;overflow:hidden
+}
+.hero-img-placeholder{
+  display:flex;flex-direction:column;align-items:center;gap:1rem;opacity:.3
+}
+.hero-img-placeholder svg{width:80px;height:80px;stroke:var(--mid)}
+.hero-img-placeholder span{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid)}
+.hero-info-strip{
+  padding:2.5rem 3rem;border-top:1px solid var(--border);
+  display:flex;flex-direction:column;gap:1rem
+}
+.hero-info-row{display:flex;align-items:center;gap:1rem}
+.hero-info-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.hero-info-text{font-size:.82rem;color:var(--mid);font-weight:300}
+.hero-info-text strong{color:var(--ink);font-weight:500}
+.hero-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  color:rgba(247,244,239,.2);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase
+}
+.hero-scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(247,244,239,.3),transparent);animation:drop 2s ease-in-out infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ─── STRIP ─── */
+.strip{
+  background:var(--ink);padding:1.1rem 0;overflow:hidden;
+  border-top:3px solid var(--accent)
+}
+.strip-inner{display:flex;white-space:nowrap;animation:slide 25s linear infinite}
+.strip-item{
+  display:inline-flex;align-items:center;gap:2rem;padding:0 3rem;
+  font-family:var(--display);font-size:1.1rem;letter-spacing:.1em;color:rgba(247,244,239,.25)
+}
+.strip-item em{color:var(--accent);font-style:normal}
+@keyframes slide{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ─── SECTIONS ─── */
+section{padding:8rem 4rem}
+.container{max-width:1200px;margin:0 auto}
+.s-label{
+  display:flex;align-items:center;gap:.8rem;margin-bottom:1rem
+}
+.s-label::before{content:'';width:36px;height:2px;background:var(--accent);flex-shrink:0}
+.s-label span{font-size:.68rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.s-title{font-family:var(--display);font-size:clamp(3rem,6vw,5.5rem);line-height:.92;letter-spacing:.03em;color:var(--ink);margin-bottom:1.5rem}
+.s-title em{font-style:italic;font-family:var(--serif);font-size:.7em;letter-spacing:.01em}
+.s-body{font-size:1rem;color:var(--mid);font-weight:300;line-height:1.85;max-width:560px}
+
+/* ─── ABOUT ─── */
+.about-section{background:var(--white)}
+.about-grid{display:grid;grid-template-columns:5fr 7fr;gap:0;margin-top:5rem}
+.about-left{position:relative;padding-right:5rem}
+.about-photo{width:100%;aspect-ratio:3/4;background:var(--cream2);position:relative;overflow:hidden}
+.about-photo-inner{
+  width:100%;height:100%;background:linear-gradient(160deg,var(--cream2),var(--cream3));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;opacity:.5
+}
+.about-badge{
+  position:absolute;bottom:-1px;right:-1px;
+  background:var(--accent);color:var(--white);
+  padding:1.5rem 2rem;text-align:center
+}
+.about-badge strong{display:block;font-family:var(--display);font-size:3rem;line-height:1;letter-spacing:.04em}
+.about-badge span{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.about-right{padding:0 0 0 1rem;display:flex;flex-direction:column;justify-content:center}
+.about-right .s-label{margin-top:0}
+.about-right p{font-size:.95rem;color:var(--mid);line-height:1.9;font-weight:300;margin-bottom:1.4rem}
+.about-right p strong{color:var(--ink);font-weight:500}
+.about-certs{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);
+  margin-top:2.5rem;border:1px solid var(--border)
+}
+.cert{background:var(--white);padding:1.25rem 1.5rem}
+.cert-name{font-size:.82rem;font-weight:500;color:var(--ink);margin-bottom:.2rem}
+.cert-sub{font-size:.72rem;color:var(--dim);font-weight:300}
+
+/* ─── APPROACH (4 steps) ─── */
+.approach-section{background:var(--cream)}
+.approach-header{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:end;margin-bottom:5rem}
+.steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border2);border:1px solid var(--border2)}
+.step{background:var(--white);padding:3rem 2.5rem;position:relative;transition:background .3s;cursor:default}
+.step:hover{background:var(--ink)}
+.step-num{
+  font-family:var(--display);font-size:5rem;line-height:1;letter-spacing:.02em;
+  color:var(--cream2);margin-bottom:1.5rem;transition:color .3s
+}
+.step:hover .step-num{color:rgba(200,71,43,.25)}
+.step-title{font-family:var(--display);font-size:1.8rem;letter-spacing:.04em;color:var(--ink);margin-bottom:1rem;line-height:1;transition:color .3s}
+.step:hover .step-title{color:var(--white)}
+.step-desc{font-size:.88rem;color:var(--mid);line-height:1.8;font-weight:300;transition:color .3s}
+.step:hover .step-desc{color:rgba(247,244,239,.55)}
+.step-accent{position:absolute;top:0;left:0;width:4px;height:0;background:var(--accent);transition:height .4s cubic-bezier(.77,0,.18,1)}
+.step:hover .step-accent{height:100%}
+
+/* ─── RESULTS ─── */
+.results-section{background:var(--ink);padding:8rem 4rem}
+.results-section .s-label::before{background:var(--accent)}
+.results-section .s-label span{color:var(--accent)}
+.results-section .s-title{color:var(--cream)}
+.results-section .s-body{color:rgba(247,244,239,.45)}
+.results-top{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:end;margin-bottom:4rem}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.gcard{position:relative;overflow:hidden;cursor:default;aspect-ratio:2/3}
+.gcard-bg{
+  width:100%;height:100%;
+  background:linear-gradient(160deg,var(--ink2),var(--ink3));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
+  transition:transform .5s cubic-bezier(.77,0,.18,1)
+}
+.gcard:hover .gcard-bg{transform:scale(1.04)}
+.gcard-ph{opacity:.1;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cream);text-align:center}
+.gcard-label{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(to top,rgba(17,16,16,.95),transparent);
+  padding:2rem 1.5rem 1.5rem;
+  transform:translateY(8px);opacity:0;transition:all .35s
+}
+.gcard:hover .gcard-label{transform:translateY(0);opacity:1}
+.gcard-name{font-family:var(--display);font-size:1.2rem;letter-spacing:.06em;color:var(--cream)}
+.gcard-stat{font-size:.72rem;color:var(--accent);font-weight:500;letter-spacing:.1em;margin-top:.3rem}
+.stats-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2px;
+  background:var(--ink2)
+}
+.sbar-item{background:var(--ink2);padding:2.5rem 2rem;text-align:center;border-top:3px solid transparent;transition:border-color .3s}
+.sbar-item:hover{border-color:var(--accent)}
+.sbar-n{font-family:var(--display);font-size:3.5rem;line-height:1;color:var(--cream);letter-spacing:.04em}
+.sbar-n sup{font-size:.4em}
+.sbar-l{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(247,244,239,.3);margin-top:.3rem}
+
+/* ─── SERVICES ─── */
+.services-section{background:var(--white)}
+.services-header{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:end;margin-bottom:4rem}
+.services-list{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.svc{background:var(--white);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:background .3s;cursor:default}
+.svc::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.77,0,.18,1)}
+.svc:hover{background:var(--cream)}
+.svc:hover::after{transform:scaleX(1)}
+.svc-n{font-family:var(--display);font-size:3.5rem;color:var(--cream2);line-height:1;margin-bottom:1.5rem;transition:color .3s}
+.svc:hover .svc-n{color:var(--cream3)}
+.svc-icon{font-size:1.6rem;margin-bottom:1rem}
+.svc-title{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;color:var(--ink);margin-bottom:.75rem;line-height:1.1;transition:color .3s}
+.svc:hover .svc-title{color:var(--accent)}
+.svc-desc{font-size:.83rem;color:var(--mid);line-height:1.75;font-weight:300}
+.svc-feats{list-style:none;margin-top:1.25rem;display:flex;flex-direction:column;gap:.4rem}
+.svc-feats li{font-size:.77rem;color:var(--dim);font-weight:300;display:flex;align-items:center;gap:.5rem}
+.svc-feats li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:.7;flex-shrink:0}
+
+/* ─── PACKAGES ─── */
+.pkg-section{background:var(--cream)}
+.pkg-header{text-align:center;margin-bottom:4rem}
+.pkg-header .s-label{justify-content:center}
+.pkg-header .s-label::before{display:none}
+.pkg-header .s-label::after{content:'';width:36px;height:2px;background:var(--accent)}
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.pkg{background:var(--white);border:1.5px solid var(--border2);padding:2.5rem;position:relative;transition:all .3s}
+.pkg:hover{border-color:var(--ink);transform:translateY(-4px);box-shadow:0 20px 60px rgba(17,16,16,.08)}
+.pkg.star{background:var(--ink);border-color:var(--ink)}
+.pkg.star:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(17,16,16,.3)}
+.pkg-badge{
+  position:absolute;top:-12px;left:2rem;
+  background:var(--accent);color:var(--white);
+  font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:.28rem 1rem
+}
+.pkg-icon{font-size:1.8rem;margin-bottom:1.5rem}
+.pkg-title{font-family:var(--display);font-size:1.6rem;letter-spacing:.05em;color:var(--ink);margin-bottom:.3rem}
+.pkg.star .pkg-title{color:var(--cream)}
+.pkg-sub{font-size:.78rem;color:var(--dim);margin-bottom:2rem;font-weight:300}
+.pkg.star .pkg-sub{color:rgba(247,244,239,.4)}
+.pkg-feats{list-style:none;display:flex;flex-direction:column;gap:.65rem;margin-bottom:2rem}
+.pkg-feats li{font-size:.82rem;color:var(--mid);font-weight:300;display:flex;align-items:flex-start;gap:.65rem;line-height:1.5}
+.pkg.star .pkg-feats li{color:rgba(247,244,239,.55)}
+.pkg-feats li::before{content:'✓';color:var(--accent);font-size:.75rem;flex-shrink:0;margin-top:.15rem;font-weight:700}
+.pkg-btn{
+  display:block;text-align:center;padding:.85rem;
+  font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  text-decoration:none;transition:all .3s;
+  border:1.5px solid var(--border2);color:var(--ink)
+}
+.pkg-btn:hover,.pkg.star .pkg-btn{background:var(--accent);border-color:var(--accent);color:var(--white)}
+.pkg.star .pkg-btn:hover{background:var(--accent2);border-color:var(--accent2)}
+
+/* ─── TESTIMONIALS ─── */
+.testi-section{background:var(--white)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:4rem}
+.testi{padding:2rem;border:1.5px solid var(--border);background:var(--white);position:relative;transition:border-color .3s}
+.testi:hover{border-color:var(--ink)}
+.testi-mark{font-family:var(--serif);font-size:5rem;line-height:.8;color:var(--accent);opacity:.15;position:absolute;top:1.25rem;right:1.5rem}
+.testi-stars{color:var(--accent);font-size:.8rem;letter-spacing:3px;margin-bottom:1rem}
+.testi-text{font-family:var(--serif);font-style:italic;font-size:.92rem;color:var(--mid);line-height:1.85;margin-bottom:1.75rem;padding-top:.5rem}
+.testi-auth{display:flex;align-items:center;gap:.85rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.testi-av{width:40px;height:40px;border-radius:50%;background:var(--cream2);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--accent);flex-shrink:0}
+.testi-name{font-size:.85rem;font-weight:600;color:var(--ink)}
+.testi-role{font-size:.72rem;color:var(--dim);font-weight:300;margin-top:.1rem}
+
+/* ─── BLOG ─── */
+.blog-section{background:var(--cream)}
+.blog-header{display:grid;grid-template-columns:1fr auto;align-items:end;margin-bottom:4rem;gap:2rem}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.bcard{background:var(--white);overflow:hidden;border:1.5px solid var(--border);transition:all .3s;cursor:pointer}
+.bcard:hover{border-color:var(--ink);transform:translateY(-3px)}
+.bcard-img{aspect-ratio:16/9;background:var(--cream2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.bcard-cat{position:absolute;top:1rem;left:1rem;background:var(--accent);color:var(--white);font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:.2rem .7rem}
+.bcard-body{padding:1.75rem}
+.bcard-date{font-size:.68rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.65rem}
+.bcard-title{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:.65rem;transition:color .2s}
+.bcard:hover .bcard-title{color:var(--accent)}
+.bcard-exc{font-size:.82rem;color:var(--mid);line-height:1.7;font-weight:300}
+.bcard-read{display:inline-flex;align-items:center;gap:.35rem;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-top:1rem;text-decoration:none;transition:gap .2s}
+.bcard-read:hover{gap:.6rem}
+
+/* ─── CTA BAND ─── */
+.cta-band{background:var(--accent);padding:5rem 4rem}
+.cta-band-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:3rem;flex-wrap:wrap}
+.cta-band h2{font-family:var(--display);font-size:clamp(2.5rem,5vw,4rem);color:var(--white);letter-spacing:.04em;line-height:.95;max-width:600px}
+.cta-band h2 em{font-family:var(--serif);font-style:italic;opacity:.8}
+.cta-band-btns{display:flex;gap:1rem;flex-wrap:wrap;flex-shrink:0}
+.btn-white{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 2rem;background:var(--white);color:var(--accent);font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-white:hover{background:var(--cream);transform:translateY(-2px)}
+.btn-outline-white{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 2rem;background:transparent;color:var(--white);font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:2px solid rgba(253,252,250,.4);transition:all .3s}
+.btn-outline-white:hover{border-color:var(--white);transform:translateY(-2px)}
+
+/* ─── CONTACT ─── */
+.contact-section{background:var(--white)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;margin-top:5rem}
+.contact-left{}
+.contact-left .s-body{margin-bottom:3rem}
+.c-rows{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.c-row{background:var(--white);display:grid;grid-template-columns:auto 1fr;gap:1.25rem;align-items:center;padding:1.25rem 1.5rem;transition:background .2s}
+.c-row:hover{background:var(--cream)}
+.c-icon{width:38px;height:38px;background:var(--cream2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:.95rem;flex-shrink:0}
+.c-lbl{font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:.2rem}
+.c-val{font-size:.9rem;color:var(--ink);font-weight:400}
+.contact-map{margin-top:1.5rem;border:1.5px solid var(--border);overflow:hidden}
+.contact-map iframe{display:block;width:100%;height:260px;border:none;filter:grayscale(1) contrast(1.1)}
+.contact-right{display:flex;flex-direction:column;gap:1rem}
+.c-btn{display:flex;align-items:center;justify-content:center;gap:.85rem;padding:1.25rem 2rem;font-family:var(--sans);font-size:.8rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:pointer;border:none}
+.wa-c{background:#25D366;color:#fff}
+.wa-c:hover{background:#1fb85a;transform:translateY(-2px);box-shadow:0 12px 30px rgba(37,211,102,.25)}
+.vi-c{background:#7360f2;color:#fff}
+.vi-c:hover{background:#6250d8;transform:translateY(-2px);box-shadow:0 12px 30px rgba(115,96,242,.25)}
+.em-c{background:var(--ink);color:var(--cream)}
+.em-c:hover{background:var(--ink2);transform:translateY(-2px)}
+.social-row{margin-top:2rem;padding:1.75rem;border:1.5px solid var(--border)}
+.social-row h4{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:1.25rem}
+.soc-links{display:flex;gap:.75rem}
+.slink{padding:.6rem 1.2rem;border:1.5px solid var(--border2);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:all .2s}
+.slink:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ─── FOOTER ─── */
+footer{background:var(--ink);padding:5rem 4rem 2.5rem;border-top:3px solid var(--accent)}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:4rem;padding-bottom:4rem;border-bottom:1px solid rgba(247,244,239,.08)}
+.fbrand-name{font-family:var(--display);font-size:2rem;letter-spacing:.06em;color:var(--cream);margin-bottom:.5rem}
+.fbrand-name span{color:var(--accent)}
+.fbrand-sub{font-size:.82rem;color:rgba(247,244,239,.3);line-height:1.7;font-weight:300;max-width:280px;margin-top:.75rem}
+.fsoc{display:flex;gap:.75rem;margin-top:1.75rem}
+.fsl{width:34px;height:34px;border:1px solid rgba(247,244,239,.12);display:flex;align-items:center;justify-content:center;color:rgba(247,244,239,.3);font-size:.7rem;font-weight:700;text-decoration:none;transition:all .2s}
+.fsl:hover{border-color:var(--accent);color:var(--accent)}
+.fcol h5{font-size:.65rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(247,244,239,.25);margin-bottom:1.5rem}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.fcol ul a{color:rgba(247,244,239,.4);text-decoration:none;font-size:.82rem;font-weight:300;transition:color .2s}
+.fcol ul a:hover{color:var(--cream)}
+.footer-bottom{max-width:1200px;margin:2.5rem auto 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-bottom p{font-size:.72rem;color:rgba(247,244,239,.2)}
+.f-lang{display:flex;border:1px solid rgba(247,244,239,.12);overflow:hidden}
+.flbtn{background:none;border:none;cursor:pointer;padding:.3rem .8rem;font-family:var(--sans);font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,244,239,.3);transition:all .2s}
+.flbtn.on{background:var(--accent);color:var(--white)}
+
+/* ─── FLOAT BTNS ─── */
+.floats{position:fixed;bottom:2rem;right:1.5rem;z-index:500;display:flex;flex-direction:column;gap:.75rem}
+.fb{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .3s;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.fb:hover{transform:scale(1.1) translateY(-2px)}
+.fwa{background:#25D366;color:#fff}
+.fvi{background:#7360f2;color:#fff}
+
+/* ─── REVEAL ─── */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.rl{opacity:0;transform:translateX(-24px);transition:opacity .65s ease,transform .65s ease}
+.rv.in,.rl.in{opacity:1;transform:translate(0)}
+
+/* ─── LANG ─── */
+[data-me]{display:none}
+body.me [data-me]{display:var(--d,block)}
+body.me [data-en]{display:none}
+span[data-me]{--d:inline}p[data-me]{--d:block}div[data-me]{--d:block}a[data-me]{--d:inline}li[data-me]{--d:list-item}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1080px){
+  nav{padding:0 2rem}
+  .nav-links{display:none}
+  .nav-cta-btn{display:none}
+  .hbg{display:flex}
+  section{padding:6rem 2rem}
+  .hero{grid-template-columns:1fr;padding-top:68px}
+  .hero-left{padding:4rem 2rem 5rem;min-height:70vh}
+  .hero-right{display:none}
+  .hero-stats{right:2rem;bottom:2rem;flex-direction:row;gap:2rem}
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .about-left{padding-right:0}
+  .about-badge{right:0}
+  .approach-header{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:1fr}
+  .results-top{grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr 1fr}
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .services-header{grid-template-columns:1fr}
+  .services-list{grid-template-columns:1fr 1fr}
+  .pkg-grid{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .blog-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr;gap:3rem}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:3rem}
+  .cta-band{padding:4rem 2rem}
+}
+@media(max-width:600px){
+  section{padding:5rem 1.5rem}
+  .hero-left{padding:3rem 1.5rem 4rem}
+  .services-list{grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .cta-band-inner{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div id="bar"></div>
+
+<!-- FLOATS -->
+<div class="floats">
+  <a href="https://wa.me/38268000000" class="fb fwa" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <a href="viber://chat?number=%2B38268000000" class="fb fvi" target="_blank" rel="noopener" aria-label="Viber">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.4 0C5.4.2.2 5.4.2 11.6c0 2.4.7 4.7 2 6.6L.2 24l6-2c1.8 1.1 3.9 1.7 6.1 1.7 6.2 0 11.4-5.2 11.4-11.4S17.6 0 11.4 0zm5.7 16.3c-.3.8-1.5 1.5-2.1 1.6-.5.1-1.2.1-1.9-.1-2.9-1-4.8-3.5-5.8-5-.4-.6-.7-1.3-.7-2.1 0-1.3 1.1-2.4 1.4-2.7.3-.3.7-.3.9-.3h.6l1.2 3.4-.8.8c-.2.2-.2.4-.1.6.3.6.9 1.5 1.6 2.1.7.7 1.7 1.4 2.4 1.7.2.1.4 0 .6-.2l.7-.9 3.2 1.4c0 .1.1.4-.2.7z"/></svg>
+  </a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">JOVICA <span class="logo-accent">KONTIĆ</span></a>
+  <ul class="nav-links">
+    <li><a href="#about" data-en>O meni</a><a href="#about" data-me>O meni</a></li>
+    <li><a href="#approach" data-en>Pristup</a><a href="#approach" data-me>Pristup</a></li>
+    <li><a href="#results" data-en>Rezultati</a><a href="#results" data-me>Rezultati</a></li>
+    <li><a href="#packages" data-en>Paketi</a><a href="#packages" data-me>Paketi</a></li>
+    <li><a href="#blog" data-en>Blog</a><a href="#blog" data-me>Blog</a></li>
+    <li><a href="#contact" data-en>Kontakt</a><a href="#contact" data-me>Kontakt</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-sw">
+      <button class="lbtn on" id="n-en" onclick="L('en')">EN</button>
+      <button class="lbtn" id="n-me" onclick="L('me')">MNE</button>
+    </div>
+    <a href="#contact" class="nav-cta-btn" data-en>Besplatna sesija</a>
+    <a href="#contact" class="nav-cta-btn" data-me>Besplatna sesija</a>
+    <button class="hbg" id="hbg" onclick="toggleD()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-links">
+    <a href="#about" onclick="closeD()">O meni</a>
+    <a href="#approach" onclick="closeD()" data-en>Pristup</a>
+    <a href="#approach" onclick="closeD()" data-me>Pristup</a>
+    <a href="#results" onclick="closeD()">Rezultati</a>
+    <a href="#packages" onclick="closeD()">Paketi</a>
+    <a href="#blog" onclick="closeD()">Blog</a>
+    <a href="#contact" onclick="closeD()">Kontakt</a>
+  </div>
+  <div class="drawer-foot">
+    <button class="dlbtn on" id="d-en" onclick="L('en')">EN</button>
+    <button class="dlbtn" id="d-me" onclick="L('me')">MNE</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-left-bg"></div>
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-dot"></div>
+      <span data-en>Certified Personal Trainer · Podgorica, Montenegro</span>
+      <span data-me>Sertifikovani Lični Trener · Podgorica, Crna Gora</span>
+    </div>
+    <h1>
+      <span data-en>LOOK<br>& FEEL<br><span class="red">PERFECT.</span></span>
+      <span data-me>IZGLEDAJ<br>I OSJETI<br><span class="red">SAVRŠENO.</span></span>
+    </h1>
+    <p class="hero-sub" data-en>My name is Jovica. I help people of all levels build real strength, lose fat and transform their bodies through personalised, science-backed coaching — in Podgorica and online.</p>
+    <p class="hero-sub" data-me>Moje ime je Jovica. Pomažem ljudima svih nivoa da izgrade pravu snagu, izgube mast i transformišu tijela kroz personalizovani, naučno podržan trening — u Podgorici i online.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-accent" data-en>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Book Free Session
+      </a>
+      <a href="#contact" class="btn-accent" data-me>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Rezerviši Sesiju
+      </a>
+      <a href="#about" class="btn-outline-light" data-en>Learn More</a>
+      <a href="#about" class="btn-outline-light" data-me>Saznaj Više</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-n">150<sup>+</sup></div>
+        <div class="hero-stat-l" data-en>Clients</div>
+        <div class="hero-stat-l" data-me>Klijenata</div>
+      </div>
+      <div>
+        <div class="hero-stat-n">5<sup>+</sup></div>
+        <div class="hero-stat-l" data-en>Years</div>
+        <div class="hero-stat-l" data-me>Godina</div>
+      </div>
+      <div>
+        <div class="hero-stat-n">98<sup>%</sup></div>
+        <div class="hero-stat-l" data-en>Satisfied</div>
+        <div class="hero-stat-l" data-me>Zadovoljnih</div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span data-en>Scroll</span><span data-me>Skroluj</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-area">
+      <div class="hero-img-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span data-en>Trainer Photo</span>
+        <span data-me>Fotografija Trenera</span>
+      </div>
+    </div>
+    <div class="hero-info-strip">
+      <div class="hero-info-row">
+        <div class="hero-info-dot"></div>
+        <div class="hero-info-text" data-en><strong>Podgorica, Montenegro</strong> — offline & online sessions</div>
+        <div class="hero-info-text" data-me><strong>Podgorica, Crna Gora</strong> — offline i online sesije</div>
+      </div>
+      <div class="hero-info-row">
+        <div class="hero-info-dot"></div>
+        <div class="hero-info-text" data-en>Fully <strong>English speaking</strong> — expat friendly</div>
+        <div class="hero-info-text" data-me>Govori tečno <strong>engleski</strong> — pogodan za ekspate</div>
+      </div>
+      <div class="hero-info-row">
+        <div class="hero-info-dot"></div>
+        <div class="hero-info-text" data-en><strong>Free</strong> first consultation — no commitment</div>
+        <div class="hero-info-text" data-me><strong>Besplatna</strong> prva konsultacija — bez obaveze</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-inner">
+    <div class="strip-item">LIČNI TRENING <em>·</em></div>
+    <div class="strip-item">MRŠAVLJENJE <em>·</em></div>
+    <div class="strip-item">IZGRADNJA MIŠIĆA <em>·</em></div>
+    <div class="strip-item">KOREKCIJA DRŽANJA <em>·</em></div>
+    <div class="strip-item">FUNKCIONALNI TRENING <em>·</em></div>
+    <div class="strip-item">NUTRICIONIZAM <em>·</em></div>
+    <div class="strip-item">ONLINE COACHING <em>·</em></div>
+    <div class="strip-item">PODGORICA <em>·</em></div>
+    <div class="strip-item">LIČNI TRENING <em>·</em></div>
+    <div class="strip-item">MRŠAVLJENJE <em>·</em></div>
+    <div class="strip-item">IZGRADNJA MIŠIĆA <em>·</em></div>
+    <div class="strip-item">KOREKCIJA DRŽANJA <em>·</em></div>
+    <div class="strip-item">FUNKCIONALNI TRENING <em>·</em></div>
+    <div class="strip-item">NUTRICIONIZAM <em>·</em></div>
+    <div class="strip-item">ONLINE COACHING <em>·</em></div>
+    <div class="strip-item">PODGORICA <em>·</em></div>
+  </div>
+</div>
+
+<!-- ════ O MENI ════ -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-left rl">
+        <div class="about-photo">
+          <div class="about-photo-inner">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-top:.5rem" data-en>Trainer Photo</div>
+            <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-top:.5rem" data-me>Fotografija Trenera</div>
+          </div>
+        </div>
+        <div class="about-badge">
+          <strong>5+</strong>
+          <span data-en>Years Certified</span>
+          <span data-me>Godina Sertifikovan</span>
+        </div>
+      </div>
+      <div class="about-right rv">
+        <div class="s-label"><span data-en>About Me</span><span data-me>O meni</span></div>
+        <div class="s-title" data-en>Who<br>I <em>am</em></div>
+        <div class="s-title" data-me>Ko<br><em>sam ja</em></div>
+        <p data-en>My passion for fitness and sport shaped my early life. Through years of competitive training and real experience with real clients, I built a coaching system that actually works — built on results, not promises.</p>
+        <p data-me>Strast prema fitnesu i sportu oblikovala je moj raniji život. Kroz godine takmičarskog treninga i stvarnog iskustva sa pravim klijentima, izgradio sam sistem treniranja koji zaista funkcioniše — zasnovan na rezultatima, ne obećanjima.</p>
+        <p data-en>In 2019 I became a nationally certified personal trainer. Since then I've worked with <strong>over 150 clients</strong> — from absolute beginners to competitive athletes — helping each one build a healthier, stronger and more confident version of themselves.</p>
+        <p data-me>2019. godine sam postao nacionalno sertifikovani lični trener. Od tada sam radio sa <strong>više od 150 klijenata</strong> — od apsolutnih početnika do takmičarskih sportista — pomažući svakom da izgradi zdraviju, jaču i samopouzdaniju verziju sebe.</p>
+        <p data-en>My training system combines modern sports science with continuous measurement, personalised programming, and daily accountability. <strong>No generic plans. No empty motivation. Just real, measurable transformation.</strong></p>
+        <p data-me>Moj sistem treninga kombinuje modernu sportsku nauku sa kontinuiranim mjerenjem, personalizovanim programiranjem i svakodnevnom odgovornošću. <strong>Nema generalnih planova. Nema prazne motivacije. Samo prava, mjerljiva transformacija.</strong></p>
+        <div class="about-certs">
+          <div class="cert">
+            <div class="cert-name" data-en>Certified Personal Trainer</div>
+            <div class="cert-name" data-me>Sertifikovani Lični Trener</div>
+            <div class="cert-sub" data-en>National certification — 2019</div>
+            <div class="cert-sub" data-me>Nacionalna sertifikacija — 2019</div>
+          </div>
+          <div class="cert">
+            <div class="cert-name" data-en>Nutrition Coaching</div>
+            <div class="cert-name" data-me>Nutricionistički Coaching</div>
+            <div class="cert-sub" data-en>Nutrition & supplementation</div>
+            <div class="cert-sub" data-me>Ishrana i suplementacija</div>
+          </div>
+          <div class="cert">
+            <div class="cert-name" data-en>Functional Training</div>
+            <div class="cert-name" data-me>Funkcionalni Trening</div>
+            <div class="cert-sub" data-en>Movement & performance</div>
+            <div class="cert-sub" data-me>Pokret i performanse</div>
+          </div>
+          <div class="cert">
+            <div class="cert-name" data-en>Postural Assessment</div>
+            <div class="cert-name" data-me>Posturalna Procjena</div>
+            <div class="cert-sub" data-en>Corrective exercise specialist</div>
+            <div class="cert-sub" data-me>Specijalista korektivnih vježbi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ PRISTUP ════ -->
+<section class="approach-section" id="approach">
+  <div class="container">
+    <div class="approach-header">
+      <div class="rv">
+        <div class="s-label"><span data-en>My Approach</span><span data-me>Moj Pristup</span></div>
+        <div class="s-title" data-en>4-STEP<br>SYSTEM</div>
+        <div class="s-title" data-me>4-KORAČNI<br>SISTEM</div>
+      </div>
+      <div class="rv">
+        <p class="s-body" data-en>Every transformation starts with understanding your body. My four-step system ensures that every programme is built on data, not guesswork — and that progress never stops.</p>
+        <p class="s-body" data-me>Svaka transformacija počinje razumijevanjem vašeg tijela. Moj četverokoračni sistem osigurava da je svaki program zasnovan na podacima, ne nagađanju — i da napredak nikad ne staje.</p>
+      </div>
+    </div>
+    <div class="steps-grid rv">
+      <div class="step">
+        <div class="step-accent"></div>
+        <div class="step-num">01</div>
+        <div class="step-title" data-en>ASSESSMENT & MEASUREMENT</div>
+        <div class="step-title" data-me>PROCJENA I MJERENJE</div>
+        <p class="step-desc" data-en>During our first session we measure everything: body composition, body fat percentage, hormonal indicators, posture and baseline flexibility. This data prevents injury and ensures optimal programming from day one.</p>
+        <p class="step-desc" data-me>Tokom naše prve sesije mjerimo sve: tjelesni sastav, procenat tjelesnih masti, hormonske pokazatelje, držanje i početnu fleksibilnost. Ovi podaci sprečavaju povrede i osiguravaju optimalno programiranje od prvog dana.</p>
+      </div>
+      <div class="step">
+        <div class="step-accent"></div>
+        <div class="step-num">02</div>
+        <div class="step-title" data-en>YOUR PERSONAL PROGRAMME</div>
+        <div class="step-title" data-me>VAŠI LIČNI PROGRAM</div>
+        <p class="step-desc" data-en>The assessment results combined with your personal goals allow me to create a fully custom training and nutrition plan. No two clients receive the same programme — your biology and ambitions define everything.</p>
+        <p class="step-desc" data-me>Rezultati procjene u kombinaciji sa vašim ličnim ciljevima omogućavaju mi da kreiram potpuno prilagođen plan treninga i ishrane. Nema dva klijenta koji dobijaju isti program — vaša biologija i ambicije definišu sve.</p>
+      </div>
+      <div class="step">
+        <div class="step-accent"></div>
+        <div class="step-num">03</div>
+        <div class="step-title" data-en>TRANSFORMATION IN ACTION</div>
+        <div class="step-title" data-me>TRANSFORMACIJA U PRAKSI</div>
+        <p class="step-desc" data-en>Consistent training, daily nutrition tracking and personal support will transform your body. Beyond the physical, regular exercise and healthy nutrition have a profoundly positive effect on mental health and confidence.</p>
+        <p class="step-desc" data-me>Redovan trening, svakodnevno praćenje ishrane i lična podrška transformisaće vaše tijelo. Pored fizičkog, redovne vježbe i zdrava ishrana imaju izuzetno pozitivan uticaj na mentalno zdravlje i samopouzdanje.</p>
+      </div>
+      <div class="step">
+        <div class="step-accent"></div>
+        <div class="step-num">04</div>
+        <div class="step-title" data-en>MONTHLY PROGRESS REVIEW</div>
+        <div class="step-title" data-me>MJESEČNI PREGLED NAPRETKA</div>
+        <p class="step-desc" data-en>Every 30 days we repeat all measurements from Step 1. We review progress together, celebrate wins and optimise the programme if needed. Then we start a new cycle — moving continuously forward toward your goals.</p>
+        <p class="step-desc" data-me>Svakih 30 dana ponavljamo sva mjerenja iz koraka 1. Zajedno pregledavamo napredak, slavimo uspjehe i optimizujemo program po potrebi. Zatim počinjemo novi ciklus — neprekidno napredujući prema vašim ciljevima.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ REZULTATI ════ -->
+<section class="results-section" id="results">
+  <div class="container">
+    <div class="results-top">
+      <div class="rv">
+        <div class="s-label"><span data-en>Client Results</span><span data-me>Rezultati Klijenata</span></div>
+        <div class="s-title" data-en>REAL<br>TRANS-<br>FORMATIONS</div>
+        <div class="s-title" data-me>PRAVE<br>TRANSFOR-<br>MACIJE</div>
+      </div>
+      <div class="rv">
+        <p class="s-body" data-en>Every result here is earned through consistency, trust and hard work. These clients came with different goals — and every single one achieved measurable transformation.</p>
+        <p class="s-body" data-me>Svaki rezultat ovdje zaslužen je konstantnošću, povjerenjem i teškim radom. Ovi klijenti su došli s različitim ciljevima — i svaki je postigao mjerljivu transformaciju.</p>
+        <a href="#contact" class="btn-accent" style="margin-top:2rem;display:inline-flex" data-en>Start Your Journey</a>
+        <a href="#contact" class="btn-accent" style="margin-top:2rem;display:inline-flex" data-me>Počni Svoju Avanturu</a>
+      </div>
+    </div>
+    <div class="gallery rv">
+      <div class="gcard">
+        <div class="gcard-bg">
+          <div class="gcard-ph">
+            <div style="font-size:3rem;opacity:.15;color:#f7f4ef;margin-bottom:.5rem">◈</div>
+            <div data-en>Before / After</div><div data-me>Prije / Poslije</div>
+          </div>
+        </div>
+        <div class="gcard-label"><div class="gcard-name">Marko R.</div><div class="gcard-stat">−14 kg · 4 months</div></div>
+      </div>
+      <div class="gcard">
+        <div class="gcard-bg">
+          <div class="gcard-ph">
+            <div style="font-size:3rem;opacity:.15;color:#f7f4ef;margin-bottom:.5rem">◈</div>
+            <div data-en>Before / After</div><div data-me>Prije / Poslije</div>
+          </div>
+        </div>
+        <div class="gcard-label"><div class="gcard-name">Ana J.</div><div class="gcard-stat" data-en>Posture corrected · 3 months</div><div class="gcard-stat" data-me>Ispravljeno držanje · 3 mj.</div></div>
+      </div>
+      <div class="gcard">
+        <div class="gcard-bg">
+          <div class="gcard-ph">
+            <div style="font-size:3rem;opacity:.15;color:#f7f4ef;margin-bottom:.5rem">◈</div>
+            <div data-en>Before / After</div><div data-me>Prije / Poslije</div>
+          </div>
+        </div>
+        <div class="gcard-label"><div class="gcard-name">Stefan K.</div><div class="gcard-stat">+8 kg muscle · 6 months</div></div>
+      </div>
+    </div>
+    <div class="stats-bar rv">
+      <div class="sbar-item"><div class="sbar-n">150<sup>+</sup></div><div class="sbar-l" data-en>Clients Transformed</div><div class="sbar-l" data-me>Transformisanih Klijenata</div></div>
+      <div class="sbar-item"><div class="sbar-n">5<sup>+</sup></div><div class="sbar-l" data-en>Years Experience</div><div class="sbar-l" data-me>Godina Iskustva</div></div>
+      <div class="sbar-item"><div class="sbar-n">98<sup>%</sup></div><div class="sbar-l" data-en>Satisfaction Rate</div><div class="sbar-l" data-me>Stopa Zadovoljstva</div></div>
+      <div class="sbar-item"><div class="sbar-n">3K<sup>+</sup></div><div class="sbar-l" data-en>Hours Coached</div><div class="sbar-l" data-me>Sati Treniranja</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ USLUGE ════ -->
+<section class="services-section" id="services">
+  <div class="container">
+    <div class="services-header rv">
+      <div>
+        <div class="s-label"><span data-en>Services</span><span data-me>Usluge</span></div>
+        <div class="s-title" data-en>WHAT<br>I <em>offer</em></div>
+        <div class="s-title" data-me>ŠTA<br><em>nudim</em></div>
+      </div>
+      <p class="s-body" data-en>Six specialised training disciplines — each fully personalised, each designed to deliver measurable results for your specific goal.</p>
+      <p class="s-body" data-me>Šest specijalizovanih disciplina treninga — svaka potpuno personalizovana, svaka dizajnirana da isporuči mjerljive rezultate za vaš specifični cilj.</p>
+    </div>
+    <div class="services-list rv">
+      <div class="svc">
+        <div class="svc-n">01</div>
+        <div class="svc-icon">🏋️</div>
+        <div class="svc-title" data-en>PERSONAL TRAINING</div>
+        <div class="svc-title" data-me>LIČNI TRENING</div>
+        <p class="svc-desc" data-en>1-on-1 sessions fully tailored to your body and goals. Real-time technique coaching, progressive overload, constant support.</p>
+        <p class="svc-desc" data-me>Sesije 1-na-1 potpuno prilagođene vašem tijelu i ciljevima. Coaching tehnike u realnom vremenu, progresivno opterećenje, stalna podrška.</p>
+        <ul class="svc-feats">
+          <li data-en>Custom programme design</li><li data-me>Dizajn prilagođenog programa</li>
+          <li data-en>Form & technique correction</li><li data-me>Korekcija forme i tehnike</li>
+          <li data-en>Progress tracking</li><li data-me>Praćenje napretka</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <div class="svc-n">02</div>
+        <div class="svc-icon">🔥</div>
+        <div class="svc-title" data-en>FAT LOSS</div>
+        <div class="svc-title" data-me>GUBITAK MASTI</div>
+        <p class="svc-desc" data-en>Strategic fat loss without muscle sacrifice. Metabolic conditioning paired with intelligent nutrition for lasting body composition change.</p>
+        <p class="svc-desc" data-me>Strateški gubitak masti bez žrtvovanja mišića. Metaboličko kondicioniranje u paru s inteligentnom ishranom za trajnu promjenu tjelesnog sastava.</p>
+        <ul class="svc-feats">
+          <li data-en>Caloric strategy</li><li data-me>Kalorijska strategija</li>
+          <li data-en>Metabolic conditioning</li><li data-me>Metaboličko kondicioniranje</li>
+          <li data-en>Body composition tracking</li><li data-me>Praćenje tjelesnog sastava</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <div class="svc-n">03</div>
+        <div class="svc-icon">💪</div>
+        <div class="svc-title" data-en>MUSCLE BUILDING</div>
+        <div class="svc-title" data-me>IZGRADNJA MIŠIĆA</div>
+        <p class="svc-desc" data-en>Intelligent hypertrophy programming maximising growth while building durable strength foundations and eliminating injury risk.</p>
+        <p class="svc-desc" data-me>Inteligentno hipertrofijsko programiranje koje maksimizira rast uz izgradnju trajnih osnova snage i eliminisanje rizika od povrede.</p>
+        <ul class="svc-feats">
+          <li data-en>Progressive overload protocols</li><li data-me>Protokoli progresivnog opterećenja</li>
+          <li data-en>Muscle-focused nutrition</li><li data-me>Ishrana fokusirana na mišiće</li>
+          <li data-en>Supplementation guidance</li><li data-me>Savjeti o suplementaciji</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <div class="svc-n">04</div>
+        <div class="svc-icon">🧘</div>
+        <div class="svc-title" data-en>POSTURE CORRECTION</div>
+        <div class="svc-title" data-me>KOREKCIJA DRŽANJA</div>
+        <p class="svc-desc" data-en>Corrective exercise protocols targeting muscular imbalances and movement dysfunction — eliminating chronic pain and improving alignment.</p>
+        <p class="svc-desc" data-me>Korektivni protokoli vježbanja koji ciljaju mišićne neravnoteže i disfunkciju pokreta — eliminišu hronični bol i poboljšavaju poravnanje.</p>
+        <ul class="svc-feats">
+          <li data-en>Postural screening</li><li data-me>Posturalni skrining</li>
+          <li data-en>Corrective programming</li><li data-me>Korektivno programiranje</li>
+          <li data-en>Mobility & flexibility work</li><li data-me>Mobilnost i fleksibilnost</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <div class="svc-n">05</div>
+        <div class="svc-icon">⚡</div>
+        <div class="svc-title" data-en>FUNCTIONAL TRAINING</div>
+        <div class="svc-title" data-me>FUNKCIONALNI TRENING</div>
+        <p class="svc-desc" data-en>Movement-first programming building athletic capacity, coordination and real-world strength for a powerful, resilient body.</p>
+        <p class="svc-desc" data-me>Programiranje fokusirano na pokret koje gradi atletski kapacitet, koordinaciju i snagu za moćno, otporno tijelo.</p>
+        <ul class="svc-feats">
+          <li data-en>Multi-planar movement</li><li data-me>Višeravninski pokret</li>
+          <li data-en>Athletic conditioning</li><li data-me>Atletsko kondicioniranje</li>
+          <li data-en>Injury prevention</li><li data-me>Prevencija povreda</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <div class="svc-n">06</div>
+        <div class="svc-icon">🌐</div>
+        <div class="svc-title" data-en>ONLINE COACHING</div>
+        <div class="svc-title" data-me>ONLINE TRENING</div>
+        <p class="svc-desc" data-en>Full personalised coaching delivered remotely. Structured programmes, nutrition plans, video check-ins and 24/7 support — from anywhere in the world.</p>
+        <p class="svc-desc" data-me>Potpun personalizovani trening koji se pruža na daljinu. Strukturirani programi, planovi ishrane, video provjere i podrška 24/7 — s bilo gdje u svijetu.</p>
+        <ul class="svc-feats">
+          <li data-en>Custom digital plan</li><li data-me>Prilagođeni digitalni plan</li>
+          <li data-en>Weekly video check-ins</li><li data-me>Sedmične video provjere</li>
+          <li data-en>Daily messaging support</li><li data-me>Dnevna podrška porukama</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ PAKETI ════ -->
+<section class="pkg-section" id="packages">
+  <div class="container">
+    <div class="pkg-header rv">
+      <div class="s-label"><span data-en>Packages</span><span data-me>Paketi</span></div>
+      <div class="s-title" data-en>CHOOSE<br>YOUR <em>path</em></div>
+      <div class="s-title" data-me>IZABERI<br>SVOJ <em>put</em></div>
+      <p class="s-body" style="margin:1rem auto 0;text-align:center" data-en>Three training packages, each designed for a different situation and goal. All include personalised programming, nutrition guidance and full support.</p>
+      <p class="s-body" style="margin:1rem auto 0;text-align:center" data-me>Tri trening paketa, svaki dizajniran za drugačiju situaciju i cilj. Svi uključuju personalizovano programiranje, nutricionistički savjet i potpunu podršku.</p>
+    </div>
+    <div class="pkg-grid rv">
+      <div class="pkg">
+        <div class="pkg-icon">👤</div>
+        <div class="pkg-title" data-en>PERSONAL</div>
+        <div class="pkg-title" data-me>LIČNI</div>
+        <div class="pkg-sub" data-en>1-on-1 training in Podgorica</div>
+        <div class="pkg-sub" data-me>Trening 1-na-1 u Podgorici</div>
+        <ul class="pkg-feats">
+          <li data-en>Full body assessment & measurement</li><li data-me>Potpuna procjena i mjerenje tijela</li>
+          <li data-en>100% personalised 1-on-1 sessions</li><li data-me>100% personalizovane sesije 1-na-1</li>
+          <li data-en>Nutrition & supplementation plan</li><li data-me>Plan ishrane i suplementacije</li>
+          <li data-en>Monthly progress measurement</li><li data-me>Mjesečno mjerenje napretka</li>
+          <li data-en>Daily motivation & accountability</li><li data-me>Svakodnevna motivacija i odgovornost</li>
+        </ul>
+        <a href="#contact" class="pkg-btn" data-en>Request Quote →</a>
+        <a href="#contact" class="pkg-btn" data-me>Zatraži Ponudu →</a>
+      </div>
+      <div class="pkg star">
+        <div class="pkg-badge" data-en>Most Popular</div>
+        <div class="pkg-badge" data-me>Najpopularniji</div>
+        <div class="pkg-icon">👥</div>
+        <div class="pkg-title" data-en>GROUP</div>
+        <div class="pkg-title" data-me>GRUPNI</div>
+        <div class="pkg-sub" data-en>Up to 3 people · Podgorica</div>
+        <div class="pkg-sub" data-me>Do 3 osobe · Podgorica</div>
+        <ul class="pkg-feats">
+          <li data-en>Assessment for each member</li><li data-me>Procjena za svakog člana</li>
+          <li data-en>Personalised small group sessions</li><li data-me>Personalizovane sesije male grupe</li>
+          <li data-en>Nutrition & supplementation plan</li><li data-me>Plan ishrane i suplementacije</li>
+          <li data-en>Monthly progress tracking</li><li data-me>Mjesečno praćenje napretka</li>
+          <li data-en>Group motivation & support</li><li data-me>Grupna motivacija i podrška</li>
+        </ul>
+        <a href="#contact" class="pkg-btn" data-en>Request Quote →</a>
+        <a href="#contact" class="pkg-btn" data-me>Zatraži Ponudu →</a>
+      </div>
+      <div class="pkg">
+        <div class="pkg-icon">🌐</div>
+        <div class="pkg-title" data-en>ONLINE</div>
+        <div class="pkg-title" data-me>ONLINE</div>
+        <div class="pkg-sub" data-en>Train from anywhere in the world</div>
+        <div class="pkg-sub" data-me>Treniraj s bilo gdje u svijetu</div>
+        <ul class="pkg-feats">
+          <li data-en>Detailed custom training plan</li><li data-me>Detaljan prilagođeni plan</li>
+          <li data-en>Nutrition & supplementation plan</li><li data-me>Plan ishrane i suplementacije</li>
+          <li data-en>Weekly video check-in calls</li><li data-me>Sedmični video pozivi</li>
+          <li data-en>Monthly progress measurement</li><li data-me>Mjesečno mjerenje napretka</li>
+          <li data-en>24/7 messaging support</li><li data-me>24/7 podrška porukama</li>
+        </ul>
+        <a href="#contact" class="pkg-btn" data-en>Request Quote →</a>
+        <a href="#contact" class="pkg-btn" data-me>Zatraži Ponudu →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ TESTIMONIALS ════ -->
+<section class="testi-section">
+  <div class="container">
+    <div class="s-label rv"><span data-en>Testimonials</span><span data-me>Iskustva Klijenata</span></div>
+    <div class="s-title rv" data-en>WHAT CLIENTS<br><em>say</em></div>
+    <div class="s-title rv" data-me>ISKUSTVA<br><em>klijenata</em></div>
+    <div class="testi-grid rv">
+      <div class="testi">
+        <div class="testi-mark">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text" data-en>Jovica completely changed my approach to training. In four months I lost 14 kg and built muscle I didn't think was possible. His knowledge and patience are unmatched. Best investment I've ever made.</p>
+        <p class="testi-text" data-me>Jovica je potpuno promijenio moj pristup treningu. Za četiri meseca izgubio sam 14 kg i izgradio mišiće za koje nisam mislio da su mogući. Njegovo znanje i strpljenje su nenadmašni. Najbolja investicija u životu.</p>
+        <div class="testi-auth">
+          <div class="testi-av">MR</div>
+          <div><div class="testi-name">Marko R.</div><div class="testi-role" data-en>Body transformation · Podgorica</div><div class="testi-role" data-me>Transformacija tijela · Podgorica</div></div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="testi-mark">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text" data-en>As a British expat in Podgorica, finding a quality English-speaking trainer seemed impossible. Jovica's programming is world-class and his communication is perfect. I finally have the results I've been looking for.</p>
+        <p class="testi-text" data-me>Kao britanska ekspatica u Podgorici, pronalazak kvalitetnog trenera koji govori engleski izgledao je nemoguće. Jovicino programiranje je vrhunske klase. Konačno imam rezultate koje tražim.</p>
+        <div class="testi-auth">
+          <div class="testi-av">SE</div>
+          <div><div class="testi-name">Sarah E.</div><div class="testi-role" data-en>Strength training · British expat</div><div class="testi-role" data-me>Trening snage · Britanska ekspatica</div></div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="testi-mark">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text" data-en>Three months of posture work with Jovica cured back pain I'd suffered for years. I stand taller, move better, and feel ten years younger. The results speak louder than any words.</p>
+        <p class="testi-text" data-me>Tri meseca rada na držanju sa Jovicom izlečila su bol u leđima koji sam imala godinama. Stojim uspravnije, krećem se bolje i osjećam se deset godina mlađom. Rezultati govore sami za sebe.</p>
+        <div class="testi-auth">
+          <div class="testi-av">AJ</div>
+          <div><div class="testi-name">Ana J.</div><div class="testi-role" data-en>Posture correction · Podgorica</div><div class="testi-role" data-me>Korekcija držanja · Podgorica</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ BLOG ════ -->
+<section class="blog-section" id="blog">
+  <div class="container">
+    <div class="blog-header rv">
+      <div>
+        <div class="s-label"><span data-en>Knowledge</span><span data-me>Blog</span></div>
+        <div class="s-title" data-en>TIPS &<br><em>insights</em></div>
+        <div class="s-title" data-me>SAVJETI &<br><em>uvidi</em></div>
+      </div>
+      <a href="#" class="btn-accent" data-en>All Articles →</a>
+      <a href="#" class="btn-accent" data-me>Svi Članci →</a>
+    </div>
+    <div class="blog-grid rv">
+      <div class="bcard">
+        <div class="bcard-img">
+          <div class="bcard-cat" data-en>Nutrition</div>
+          <div class="bcard-cat" data-me>Ishrana</div>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(17,16,16,0.1)" stroke-width="1"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-date">Jan 2025</div>
+          <div class="bcard-title" data-en>How to Accelerate Fat Loss Without Starving</div>
+          <div class="bcard-title" data-me>Kako ubrzati sagorijevanje masti bez gladovanja</div>
+          <p class="bcard-exc" data-en>The key factors most people overlook when trying to reduce body fat — and what actually creates the difference.</p>
+          <p class="bcard-exc" data-me>Ključni faktori koje većina zanemaruje pri pokušaju smanjenja tjelesnih masti — i šta zaista pravi razliku.</p>
+          <a href="#" class="bcard-read" data-en>Read more →</a>
+          <a href="#" class="bcard-read" data-me>Pročitaj više →</a>
+        </div>
+      </div>
+      <div class="bcard">
+        <div class="bcard-img">
+          <div class="bcard-cat" data-en>Training</div>
+          <div class="bcard-cat" data-me>Trening</div>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(17,16,16,0.1)" stroke-width="1"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-date">Dec 2024</div>
+          <div class="bcard-title" data-en>5 Reasons Your Training Progress Has Stalled</div>
+          <div class="bcard-title" data-me>5 razloga zašto vaš napredak u treningu stagnira</div>
+          <p class="bcard-exc" data-en>The most common mistakes holding people back in the gym — and practical solutions for breaking through every plateau.</p>
+          <p class="bcard-exc" data-me>Najčešće greške koje koče ljude u teretani — i praktična rješenja za probijanje svakog platoa.</p>
+          <a href="#" class="bcard-read" data-en>Read more →</a>
+          <a href="#" class="bcard-read" data-me>Pročitaj više →</a>
+        </div>
+      </div>
+      <div class="bcard">
+        <div class="bcard-img">
+          <div class="bcard-cat" data-en>Lifestyle</div>
+          <div class="bcard-cat" data-me>Životni Stil</div>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(17,16,16,0.1)" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div class="bcard-body">
+          <div class="bcard-date">Nov 2024</div>
+          <div class="bcard-title" data-en>7 Reasons You Need a Personal Trainer</div>
+          <div class="bcard-title" data-me>7 razloga zašto vam je potreban lični trener</div>
+          <p class="bcard-exc" data-en>Beyond the obvious — the deeper reasons why guided coaching delivers results that self-training simply cannot match.</p>
+          <p class="bcard-exc" data-me>Izvan očiglednog — dublji razlozi zašto vođeni trening daje rezultate koje samostalni trening ne može dostići.</p>
+          <a href="#" class="bcard-read" data-en>Read more →</a>
+          <a href="#" class="bcard-read" data-me>Pročitaj više →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CTA BAND ════ -->
+<div class="cta-band">
+  <div class="cta-band-inner">
+    <h2 data-en>READY TO CHANGE<br>YOUR <em>life?</em></h2>
+    <h2 data-me>SPREMAN DA PROMIJENIŠ<br>SVOJ <em>život?</em></h2>
+    <div class="cta-band-btns">
+      <a href="https://wa.me/38268000000" class="btn-white" target="_blank" rel="noopener" data-en>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a href="https://wa.me/38268000000" class="btn-white" target="_blank" rel="noopener" data-me>WhatsApp</a>
+      <a href="#contact" class="btn-outline-white" data-en>See All Options</a>
+      <a href="#contact" class="btn-outline-white" data-me>Sve Opcije</a>
+    </div>
+  </div>
+</div>
+
+<!-- ════ KONTAKT ════ -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="s-label rv"><span data-en>Contact</span><span data-me>Kontakt</span></div>
+    <div class="s-title rv" data-en>LET'S WORK<br><em>together</em></div>
+    <div class="s-title rv" data-me>RADIMO<br><em>zajedno</em></div>
+    <div class="contact-grid">
+      <div class="rv">
+        <p class="s-body" data-en>Reach out directly via WhatsApp or Viber for the fastest response. I typically reply within a few hours. The first consultation is always free — no commitment required.</p>
+        <p class="s-body" data-me>Kontaktirajte me direktno putem WhatsAppa ili Vibera za najbrži odgovor. Obično odgovaram u roku od nekoliko sati. Prva konsultacija je uvijek besplatna — bez obaveze.</p>
+        <div class="c-rows" style="margin-top:2.5rem">
+          <div class="c-row">
+            <div class="c-icon">📍</div>
+            <div><div class="c-lbl" data-en>Location</div><div class="c-lbl" data-me>Lokacija</div><div class="c-val">Podgorica, Montenegro</div></div>
+          </div>
+          <div class="c-row">
+            <div class="c-icon">📱</div>
+            <div><div class="c-lbl">WhatsApp / Viber</div><div class="c-val">+382 68 000 000</div></div>
+          </div>
+          <div class="c-row">
+            <div class="c-icon">📧</div>
+            <div><div class="c-lbl">Email</div><div class="c-val">jovica@example.com</div></div>
+          </div>
+        </div>
+        <div class="contact-map">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d47561.44844553!2d19.212!3d42.441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134def5cc27bdc6f%3A0x8e5c4f4ea4b2d1c0!2sPodgorica%2C%20Montenegro!5e0!3m2!1sen!2s!4v1700000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Podgorica Montenegro"></iframe>
+        </div>
+      </div>
+      <div class="rv">
+        <div class="contact-right">
+          <a href="https://wa.me/38268000000" class="c-btn wa-c" target="_blank" rel="noopener">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span data-en>Chat on WhatsApp</span><span data-me>Pišite na WhatsAppu</span>
+          </a>
+          <a href="viber://chat?number=%2B38268000000" class="c-btn vi-c" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.4 0C5.4.2.2 5.4.2 11.6c0 2.4.7 4.7 2 6.6L.2 24l6-2c1.8 1.1 3.9 1.7 6.1 1.7 6.2 0 11.4-5.2 11.4-11.4S17.6 0 11.4 0zm5.7 16.3c-.3.8-1.5 1.5-2.1 1.6-.5.1-1.2.1-1.9-.1-2.9-1-4.8-3.5-5.8-5-.4-.6-.7-1.3-.7-2.1 0-1.3 1.1-2.4 1.4-2.7.3-.3.7-.3.9-.3h.6l1.2 3.4-.8.8c-.2.2-.2.4-.1.6.3.6.9 1.5 1.6 2.1.7.7 1.7 1.4 2.4 1.7.2.1.4 0 .6-.2l.7-.9 3.2 1.4c0 .1.1.4-.2.7z"/></svg>
+            <span data-en>Message on Viber</span><span data-me>Pišite na Viberu</span>
+          </a>
+          <a href="mailto:jovica@example.com" class="c-btn em-c">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            <span data-en>Send Email</span><span data-me>Pošaljite Email</span>
+          </a>
+          <div class="social-row">
+            <h4 data-en>Follow along</h4>
+            <h4 data-me>Pratite me</h4>
+            <div class="soc-links">
+              <a href="#" class="slink">Instagram</a>
+              <a href="#" class="slink">Facebook</a>
+              <a href="#" class="slink">TikTok</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="fbrand-name">JOVICA <span>KONTIĆ</span></div>
+      <div class="fbrand-sub" data-en>Premium personal training in Podgorica, Montenegro. Building stronger, healthier and more confident people — one session at a time.</div>
+      <div class="fbrand-sub" data-me>Premium lični trening u Podgorici, Crna Gora. Gradimo jače, zdravije i samopouzdanije ljude — jednu sesiju u isto vrijeme.</div>
+      <div class="fsoc">
+        <a href="#" class="fsl">IG</a>
+        <a href="#" class="fsl">FB</a>
+        <a href="#" class="fsl">TK</a>
+      </div>
+    </div>
+    <div class="fcol">
+      <h5 data-en>Navigate</h5>
+      <h5 data-me>Navigacija</h5>
+      <ul>
+        <li><a href="#about">O meni</a></li>
+        <li><a href="#approach" data-en>Pristup</a><a href="#approach" data-me>Pristup</a></li>
+        <li><a href="#results">Rezultati</a></li>
+        <li><a href="#packages">Paketi</a></li>
+        <li><a href="#blog">Blog</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h5 data-en>Services</h5>
+      <h5 data-me>Usluge</h5>
+      <ul>
+        <li><a href="#services" data-en>Personal Training</a><a href="#services" data-me>Lični Trening</a></li>
+        <li><a href="#services" data-en>Fat Loss</a><a href="#services" data-me>Gubitak Masti</a></li>
+        <li><a href="#services" data-en>Muscle Building</a><a href="#services" data-me>Izgradnja Mišića</a></li>
+        <li><a href="#services" data-en>Posture</a><a href="#services" data-me>Korekcija Držanja</a></li>
+        <li><a href="#services" data-en>Online Coaching</a><a href="#services" data-me>Online Trening</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="https://wa.me/38268000000">WhatsApp</a></li>
+        <li><a href="viber://chat?number=%2B38268000000">Viber</a></li>
+        <li><a href="mailto:jovica@example.com">Email</a></li>
+      </ul>
+      <div class="f-lang" style="margin-top:1.5rem">
+        <button class="flbtn on" id="f-en" onclick="L('en')">EN</button>
+        <button class="flbtn" id="f-me" onclick="L('me')">MNE</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p data-en>© 2025 Jovica Kontić — Personal Trainer Podgorica, Montenegro</p>
+    <p data-me>© 2025 Jovica Kontić — Lični Trener Podgorica, Crna Gora</p>
+    <p data-en>Personal Trainer · Podgorica</p>
+    <p data-me>Lični Trener · Podgorica</p>
+  </div>
+</footer>
+
+<script>
+// PROGRESS BAR
+const bar=document.getElementById('bar');
+window.addEventListener('scroll',()=>{
+  bar.style.width=(window.scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';
+  document.getElementById('nav').classList.toggle('scrolled',scrollY>50);
+});
+
+// DRAWER
+function toggleD(){
+  const d=document.getElementById('drawer'),h=document.getElementById('hbg');
+  d.classList.toggle('open');h.classList.toggle('x');
+}
+function closeD(){
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('hbg').classList.remove('x');
+}
+
+// LANGUAGE
+function L(lang){
+  document.body.classList.toggle('me',lang==='me');
+  const ids=lang==='me'
+    ?{on:['n-me','d-me','f-me'],off:['n-en','d-en','f-en']}
+    :{on:['n-en','d-en','f-en'],off:['n-me','d-me','f-me']};
+  ids.on.forEach(id=>{const e=document.getElementById(id);if(e)e.classList.add('on')});
+  ids.off.forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove('on')});
+  document.documentElement.lang=lang==='me'?'sr':'en';
+  localStorage.setItem('jkl',lang);
+}
+const sl=localStorage.getItem('jkl');if(sl)L(sl);
+
+// REVEAL
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('in'),i*70);
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rl').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
