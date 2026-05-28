@@ -2,15 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://jovica.me/en/</loc>
+    <loc>https://jovica.me/me/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="sr-ME" href="https://jovica.me/me/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://jovica.me/en/"/>
-    <xhtml:link rel="alternate" hreflang="me" href="https://jovica.me/me/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jovica.me/me/"/>
   </url>
   <url>
-    <loc>https://jovica.me/me/</loc>
+    <loc>https://jovica.me/en/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="sr-ME" href="https://jovica.me/me/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://jovica.me/en/"/>
-    <xhtml:link rel="alternate" hreflang="me" href="https://jovica.me/me/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jovica.me/me/"/>
   </url>
 </urlset>
