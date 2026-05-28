@@ -993,7 +993,7 @@ img{
 </style>
 <link as="image" href="../images/jovica-e42b65293f0e.png" rel="preload"/>
 <style>
-/* ENGINEERING FINAL FIXES */
+/* SAFE TECHNICAL FIXES - no content removal */
 *,
 *::before,
 *::after{
@@ -1001,65 +1001,142 @@ img{
 }
 
 html{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
   -webkit-text-size-adjust:100%;
+  scroll-behavior:smooth;
 }
 
 body{
-  margin:0;
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
   text-rendering:optimizeLegibility;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
 }
 
 img{
-  content-visibility:auto;
-}
-
-section{
-  content-visibility:auto;
-  contain-intrinsic-size:1px 1000px;
+  max-width:100%;
+  height:auto;
+  display:block;
+  -webkit-user-drag:none;
+  user-select:none;
 }
 
 a:focus-visible,
 button:focus-visible{
-  outline:2px solid #111;
+  outline:2px solid var(--ink);
   outline-offset:3px;
 }
 
-/* safer mobile menu layering */
 .drawer{
   z-index:9999;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
 }
 
-header,
 nav{
   z-index:9000;
 }
 
-/* avoid layout shift */
+.lang-sw a,
+.drawer-foot a,
+.f-lang a{
+  text-decoration:none;
+  cursor:pointer;
+}
+
+.lang-sw a.lbtn,
+.drawer-foot a.dlbtn,
+.f-lang a.flbtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.drawer-foot a.dlbtn.on,
+.lang-sw a.lbtn.on,
+.f-lang a.flbtn.on{
+  background:var(--ink);
+  color:var(--cream);
+  border-color:var(--ink);
+}
+
 .hero-img-area,
 .bcard-img,
 .gcard{
   background:#f4f1ec;
+  overflow:hidden;
 }
 
-/* smoother cards */
-.bcard,
-.pkg,
-.svc,
-.testi{
-  will-change:transform;
-  backface-visibility:hidden;
-  transform:translateZ(0);
+.bcard-img img,
+.hero-img-area img,
+.about-photo img,
+.gcard img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  pointer-events:none;
+}
+
+.blog-grid .bcard:first-child .bcard-img img{
+  object-position:center 14%;
+}
+
+.blog-grid .bcard:nth-child(2) .bcard-img img{
+  object-position:center center;
+}
+
+.blog-grid .bcard:nth-child(3) .bcard-img img{
+  object-position:center 10%;
+}
+
+@media(max-width:1080px){
+  .hero-right{
+    display:block;
+  }
+
+  .hero-img-area{
+    min-height:auto;
+    aspect-ratio:4/5;
+  }
+
+  .hero-stats{
+    position:static;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1rem;
+    margin-top:2rem;
+    align-items:start;
+  }
+
+  .hero-stat-l{
+    text-align:left;
+  }
 }
 
 @media(max-width:600px){
-  body{
-    overflow-x:hidden;
+  nav{
+    padding:0 1rem;
+  }
+
+  .logo{
+    font-size:1.25rem;
+    max-width:68vw;
+    white-space:nowrap;
+  }
+
+  .hero-left{
+    min-height:auto;
+    padding:5.5rem 1.25rem 3rem;
   }
 
   .hero h1{
-    hyphens:none;
+    font-size:clamp(3.1rem,17vw,4.8rem);
+    line-height:.92;
   }
 
   .hero-sub,
@@ -1068,11 +1145,30 @@ nav{
     word-break:normal;
     overflow-wrap:break-word;
   }
+
+  .blog-grid,
+  .gallery,
+  .services-list,
+  .pkg-grid,
+  .testi-grid,
+  .contact-grid,
+  .footer-grid{
+    grid-template-columns:1fr !important;
+    width:100%;
+  }
+
+  .bcard-img{
+    min-height:250px;
+  }
+
+  .blog-grid .bcard:nth-child(3) .bcard-img{
+    min-height:300px;
+  }
 }
 </style>
 </head>
 <body class="en">
-
+<div id="bar"></div>
 <!-- FLOATS -->
 <div class="floats">
 <a aria-label="WhatsApp" class="fb fwa" href="https://wa.me/38269234986" rel="noopener" target="_blank">
@@ -1097,7 +1193,7 @@ nav{
 <div class="lang-sw"><a class="lbtn on" href="../en/" id="n-en">EN</a><a class="lbtn" href="../me/" id="n-me">MNE</a></div>
 <a class="nav-cta-btn" href="#contact">Free Session</a>
 <button aria-label="Menu" class="hbg" id="hbg" onclick="toggleD()">
-
+<span></span><span></span><span></span>
 </button>
 </div>
 </nav>
@@ -1118,9 +1214,9 @@ nav{
 ════════════════════════════════════════ -->
 <section class="hero" id="home">
 <div class="hero-left">
-
+<div class="hero-left-bg"></div>
 <div class="hero-eyebrow">
-
+<div class="hero-eyebrow-dot"></div>
 <span>Certified Personal Trainer · Podgorica, Montenegro</span>
 </div>
 <h1 aria-label="Personal Training Podgorica">
@@ -1149,7 +1245,7 @@ nav{
 </div>
 </div>
 <div class="hero-scroll">
-
+<div class="hero-scroll-line"></div>
 <span>Scroll</span>
 </div>
 </div>
@@ -1157,15 +1253,15 @@ nav{
 <div class="hero-img-area" style="padding:0;background:#1a1a1a;"><img alt="Jovica Kontić personal trainer in Podgorica Montenegro" decoding="async" draggable="false" loading="lazy" src="../images/jovica-e42b65293f0e.png" style="width:100%;height:100%;object-fit:cover;object-position:center center;"/></div>
 <div class="hero-info-strip">
 <div class="hero-info-row">
-
+<div class="hero-info-dot"></div>
 <div class="hero-info-text"><strong>Podgorica, Montenegro</strong> — offline &amp; online sessions</div>
 </div>
 <div class="hero-info-row">
-
+<div class="hero-info-dot"></div>
 <div class="hero-info-text">Fully <strong>English speaking</strong> — expat friendly</div>
 </div>
 <div class="hero-info-row">
-
+<div class="hero-info-dot"></div>
 <div class="hero-info-text"><strong>Free</strong> first consultation — no commitment</div>
 </div>
 </div>
@@ -1237,25 +1333,25 @@ nav{
 </div>
 <div class="steps-grid rv">
 <div class="step">
-
+<div class="step-accent"></div>
 <div class="step-num">01</div>
 <div class="step-title">ASSESSMENT &amp; MEASUREMENT</div>
 <p class="step-desc">During our first session we measure everything: body composition, body fat percentage, hormonal indicators, posture and baseline flexibility. This data prevents injury and ensures optimal programming from day one.</p>
 </div>
 <div class="step">
-
+<div class="step-accent"></div>
 <div class="step-num">02</div>
 <div class="step-title">YOUR PERSONAL PROGRAMME</div>
 <p class="step-desc">The assessment results combined with your personal goals allow me to create a fully custom training and nutrition plan. No two clients receive the same programme — your biology and ambitions define everything.</p>
 </div>
 <div class="step">
-
+<div class="step-accent"></div>
 <div class="step-num">03</div>
 <div class="step-title">TRANSFORMATION IN ACTION</div>
 <p class="step-desc">Consistent training, daily nutrition tracking and personal support will transform your body. Beyond the physical, regular exercise and healthy nutrition have a profoundly positive effect on mental health and confidence.</p>
 </div>
 <div class="step">
-
+<div class="step-accent"></div>
 <div class="step-num">04</div>
 <div class="step-title">MONTHLY PROGRESS REVIEW</div>
 <p class="step-desc">Every 30 days we repeat all measurements from Step 1. We review progress together, celebrate wins and optimise the programme if needed. Then we start a new cycle — moving continuously forward toward your goals.</p>
@@ -1552,7 +1648,8 @@ nav{
 <div class="contact-grid">
 <div class="rv">
 <p class="s-body">Reach out directly via WhatsApp or Viber for the fastest response. I typically reply within a few hours. The first consultation is always free — no commitment required.</p>
-
+<div class="c-rows" style="margin-top:2.5rem">
+</div>
 </div>
 <div class="contact-map">
 <iframe allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d47561.44844553!2d19.212!3d42.441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134def5cc27bdc6f%3A0x8e5c4f4ea4b2d1c0!2sPodgorica%2C%20Montenegro!5e0!3m2!1sen!2s!4v1700000000000" title="Podgorica Montenegro"></iframe>
@@ -1617,7 +1714,7 @@ nav{
 <ul>
 <li><a href="https://wa.me/38269234986">WhatsApp</a></li>
 <li><a href="viber://chat?number=%2B38269234986">Viber</a></li>
-<li><a href="mailto:jovica@example.com"></a></li>
+<li><a href="mailto:jovica@example.com">Email</a></li>
 </ul>
 <div class="f-lang" style="margin-top:1.5rem"><a class="flbtn on" href="../en/" id="f-en">EN</a><a class="flbtn" href="../me/" id="f-me">MNE</a></div>
 </div>
@@ -1680,41 +1777,22 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 
 <script>
-/* PERFORMANCE + UX */
-document.addEventListener('DOMContentLoaded', () => {
-
-  // lazy decode images
-  document.querySelectorAll('img').forEach(img => {
-    img.decoding = 'async';
-    img.loading = 'lazy';
+/* SAFE UX FIXES */
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('img').forEach(function(img){
+    img.setAttribute('draggable', 'false');
+    if (!img.hasAttribute('decoding')) img.setAttribute('decoding', 'async');
   });
 
-  // close mobile drawer after navigation
-  document.querySelectorAll('.drawer a').forEach(link => {
-    link.addEventListener('click', () => {
+  document.querySelectorAll('.drawer a').forEach(function(link){
+    link.addEventListener('click', function(){
       if (typeof closeD === 'function') closeD();
     });
   });
 
-  // remove accidental hash jumps
-  document.querySelectorAll('a[href="#"]').forEach(a => {
-    a.addEventListener('click', e => e.preventDefault());
-  });
-
-  // keep horizontal scroll locked
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        if (window.scrollX !== 0) {
-          window.scrollTo(0, window.scrollY);
-        }
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive:true });
-
+  window.addEventListener('scroll', function(){
+    if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+  }, {passive:true});
 });
 </script>
 </body>
